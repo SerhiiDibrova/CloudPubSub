@@ -52,7 +52,7 @@ public class PubSubToBigQueryMain {
                  */
                 .apply("Filtered by country Ukraine", Filter.by(PubSubToBigQueryMain::isResident))
                 /*
-                 * Step #4: Split customer by age
+                 * Split customer by age
                  */
                 .apply("Split output", ParDo.of(new DoFn<CustomerFlowData, CustomerFlowData>() {
                     @ProcessElement
