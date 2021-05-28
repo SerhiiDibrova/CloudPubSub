@@ -12,7 +12,6 @@ import org.apache.beam.sdk.values.PCollection;
 import org.apache.beam.sdk.values.PCollectionTuple;
 import org.apache.beam.sdk.values.TupleTag;
 import org.apache.beam.sdk.values.TupleTagList;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,8 +85,7 @@ public class PubSubToBigQueryMain {
 
     private static boolean isResident(Object o) {
         CustomerFlowData customerFlowData = (CustomerFlowData) o;
-        return StringUtils.isNotEmpty(customerFlowData.getCountry())
-                && "ukraine".equalsIgnoreCase(customerFlowData.getCountry());
+        return "ukraine".equalsIgnoreCase(customerFlowData.getCountry());
     }
 
     private static BigQueryIO.Write<TableRow> insert(TableReference outputProvider) {
