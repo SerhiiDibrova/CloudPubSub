@@ -35,14 +35,6 @@ public class PubSubToBigQueryMain {
         };
         final TupleTag<CustomerFlowData> youngTuple = new TupleTag<>() {
         };
-//
-//        // Build the table schema for the output table.
-//        List<TableFieldSchema> fields = new ArrayList<>();
-//        fields.add(new TableFieldSchema().setName("first_name").setType("STRING"));
-//        fields.add(new TableFieldSchema().setName("last_name").setType("STRING"));
-//        fields.add(new TableFieldSchema().setName("country").setType("STRING"));
-//        fields.add(new TableFieldSchema().setName("age").setType("INTEGER"));
-//        TableSchema schema = new TableSchema().setFields(fields);
 
         Pipeline pipeline = Pipeline.create(options);
         LOG.info("Start pipe");
