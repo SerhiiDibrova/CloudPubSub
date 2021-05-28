@@ -8,7 +8,6 @@ import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubMessage;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
-import org.apache.beam.sdk.options.ValueProvider;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.slf4j.Logger;
@@ -38,17 +37,19 @@ public class PubsubToBigquery {
 
         // Start by defining the options for the pipeline.
         Options options = PipelineOptionsFactory.create().as(Options.class);
-        options.setInputSubscription(getValueProvider(SUBSCRIBER_NAME));
-        options.setInputTopic(getValueProvider(TOPIC_NAME));
+//        options.setInputSubscription(getValueProvider(SUBSCRIBER_NAME));
+//        options.setInputTopic(getValueProvider(TOPIC_NAME));
         options.setUseSubscription(isSubscriber);
+//        options.setStreaming(true);
 //        options.setRunner(DataflowRunner.class);
         Pipeline pipeline = Pipeline.create(options);
 
         PubsubIO.Read<PubsubMessage> messages = options.getUseSubscription() ? PubsubIO.readMessagesWithAttributes()
                 .fromSubscription(options.getInputSubscription()) : PubsubIO.readMessagesWithAttributes().fromTopic(options.getInputTopic());
         String messageLabel = options.getUseSubscription() ? "ReadPubSubSubscription" : "ReadPubSubTopic";
-
-        pipeline.apply(messageLabel, messages)
+       LOG.info("Start pipe");
+        pipeline.apply("ReadPubSubSubscription" , PubsubIO.readMessagesWithAttributes()
+                .fromSubscription(SUBSCRIBER_NAME))
                 .apply("ConvertMessageToTableRow", ParDo.of(new DoFn<PubsubMessage, TableRow>() {
                     @ProcessElement
                     public void processElement(ProcessContext c) {
@@ -71,23 +72,10 @@ public class PubsubToBigquery {
                                 .withSchema(schema)
                                 .withCreateDisposition(BigQueryIO.Write.CreateDisposition.CREATE_IF_NEEDED)
                                 .withWriteDisposition(BigQueryIO.Write.WriteDisposition.WRITE_APPEND));
+        LOG.info("END pipeline");
 
         // Run the pipeline
-        pipeline.run().waitUntilFinish();
-    }
-
-    private ValueProvider<String> getValueProvider(String value) {
-        return new ValueProvider<>() {
-            @Override
-            public String get() {
-                return value;
-            }
-
-            @Override
-            public boolean isAccessible() {
-                return true;
-            }
-        };
+        pipeline.run();
     }
 
 }

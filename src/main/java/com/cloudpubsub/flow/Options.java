@@ -1,5 +1,6 @@
 package com.cloudpubsub.flow;
 
+import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.options.Default;
 import org.apache.beam.sdk.options.Description;
 import org.apache.beam.sdk.options.PipelineOptions;
@@ -7,10 +8,16 @@ import org.apache.beam.sdk.options.ValueProvider;
 
 
 public interface Options extends PipelineOptions {
+//public interface Options extends DataflowPipelineOptions {
     @Description("Table spec to write the output to")
-    ValueProvider<String> getOutputTableSpec();
+    ValueProvider<String> getAdultOutputTableSpec();
 
-    void setOutputTableSpec(ValueProvider<String> value);
+    void setAdultOutputTableSpec(ValueProvider<String> value);
+
+    @Description("Table spec to write the output to")
+    ValueProvider<String> getYoungOutputTableSpec();
+
+    void setYoungOutputTableSpec(ValueProvider<String> value);
 
     @Description("Pub/Sub topic to read the input from")
     ValueProvider<String> getInputTopic();

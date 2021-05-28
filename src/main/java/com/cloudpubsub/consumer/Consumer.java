@@ -38,9 +38,9 @@ public class Consumer extends PubSubConsumer {
         PubsubMessage message = basicAcknowledgeablePubsubMessage.getPubsubMessage();
 
         try {
+            LOG.info("message: ");
             LOG.info("message: " + message.getData().toStringUtf8());
             LOG.info("Attributes: " + message.getAttributesMap());
-            pubsubToBigquery.insert( true);
         } catch (Exception ex) {
             LOG.error("Error Occured while receiving pubsub message:::::", ex);
         }
