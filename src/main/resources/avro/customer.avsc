@@ -1,0 +1,11 @@
+{
+  "namespace": "com.cloudpubsub.avro.model",
+ "type": "record",
+ "name": "CustomerMessage",
+ "fields": [
+     {"name": "first_name", "type": "string"},
+     {"name": "last_name",  "type": "string"},
+     {"name": "country", "type": "string"},
+     {"name": "age", "type": "int"}
+ ]
+}

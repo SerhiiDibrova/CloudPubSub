@@ -32,9 +32,9 @@ public class PubSubToBigQueryMainProto {
 
     private static void run(Options options) {
 
-        final TupleTag<CustomerMessageOuterClass.CustomerMessage> adultTuple = new TupleTag<>() {
+        final TupleTag<CustomerMessageOuterClass.CustomerMessage> adultTuple = new TupleTag<CustomerMessageOuterClass.CustomerMessage>() {
         };
-        final TupleTag<CustomerMessageOuterClass.CustomerMessage> youngTuple = new TupleTag<>() {
+        final TupleTag<CustomerMessageOuterClass.CustomerMessage> youngTuple = new TupleTag<CustomerMessageOuterClass.CustomerMessage>() {
         };
 
         Pipeline pipeline = Pipeline.create(options);

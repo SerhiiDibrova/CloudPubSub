@@ -1,5 +1,6 @@
 package com.cloudpubsub.publisher;
 
+import com.cloudpubsub.avro.model.CustomerMessage;
 import com.cloudpubsub.flow.CustomerFlowData;
 import com.cloudpubsub.flow.PubsubToBigquery;
 import com.cloudpubsub.protobuf.CustomerMessageOuterClass;
@@ -44,6 +45,29 @@ public class PublishResource {
                     .setCountry(country)
                     .setAge(age)
                     .build();
+            publisher.publishMessage(customerMessage);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("api/v3/publish")
+    public ResponseEntity publishAvroToTopic(@RequestBody MessageModel message) {
+
+        try {
+            String firstName = message.getAttributeMessages().get("first_name");
+            String lastName = message.getAttributeMessages().get("last_name");
+            String country = message.getAttributeMessages().get("country");
+            int age = Integer.parseInt(message.getAttributeMessages().get("age"));
+            CustomerMessage customerMessage = CustomerMessage
+                    .newBuilder()
+                    .setCountry(country)
+                    .setAge(age)
+                    .setFirstName(firstName)
+                    .setLastName(lastName).build();
+
             publisher.publishMessage(customerMessage);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
