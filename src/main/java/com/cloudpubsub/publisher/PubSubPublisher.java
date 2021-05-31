@@ -1,5 +1,6 @@
 package com.cloudpubsub.publisher;
 
+import com.cloudpubsub.protobuf.CustomerMessageOuterClass;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import org.slf4j.Logger;
@@ -30,6 +31,15 @@ public abstract class PubSubPublisher {
         }
 
         publish(pubsubMessage.build());
+    }
+
+    public void publishMessage(CustomerMessageOuterClass.CustomerMessage message) throws ExecutionException, InterruptedException {
+        LOG.info("Sending Message to the topic:::");
+        // Create pubsub message
+        PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
+                .setData(message.toByteString())
+                .build();
+        publish(pubsubMessage);
     }
 
     private void publish(PubsubMessage pubsubMessage) throws ExecutionException, InterruptedException {

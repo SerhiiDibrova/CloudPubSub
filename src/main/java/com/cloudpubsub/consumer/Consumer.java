@@ -2,6 +2,7 @@ package com.cloudpubsub.consumer;
 
 
 import com.cloudpubsub.flow.PubsubToBigquery;
+import com.cloudpubsub.protobuf.CustomerMessageOuterClass;
 import com.google.pubsub.v1.PubsubMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,8 @@ public class Consumer extends PubSubConsumer {
         PubsubMessage message = basicAcknowledgeablePubsubMessage.getPubsubMessage();
 
         try {
-            LOG.info("message: ");
+//            CustomerMessageOuterClass.CustomerMessage customerMessage = CustomerMessageOuterClass.CustomerMessage.parseFrom(message.getData());
+//            LOG.info("message customer : " + customerMessage);
             LOG.info("message: " + message.getData().toStringUtf8());
             LOG.info("Attributes: " + message.getAttributesMap());
         } catch (Exception ex) {
