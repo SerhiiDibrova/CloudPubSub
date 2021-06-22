@@ -2,6 +2,7 @@ package com.cloudpubsub.publisher;
 
 import com.cloudpubsub.avro.model.CustomerMessage;
 import com.cloudpubsub.protobuf.CustomerMessageOuterClass;
+import com.cloudpubsub.protobuf.OrderMessageOuterClass;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import org.apache.avro.io.EncoderFactory;
@@ -39,6 +40,15 @@ public abstract class PubSubPublisher {
     }
 
     public void publishMessage(CustomerMessageOuterClass.CustomerMessage message) throws ExecutionException, InterruptedException {
+        LOG.info("Sending Message to the topic:::");
+        // Create pubsub message
+        PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
+                .setData(message.toByteString())
+                .build();
+        publish(pubsubMessage);
+    }
+
+    public void publishMessage(OrderMessageOuterClass.OrderMessage message) throws ExecutionException, InterruptedException {
         LOG.info("Sending Message to the topic:::");
         // Create pubsub message
         PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
