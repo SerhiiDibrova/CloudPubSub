@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "com.cloudpubsub.protobuf";
+option java_outer_classname = "OrderMessageOuterClass";
+
+message OrderMessage {
+  Type type = 1;
+  string state = 2;
+  int64 created = 3;
+  double amount = 4;
+  string id = 5;
+  int64 update = 6;
+
+  enum Type {
+    ORDER = 0;
+    SELL = 1;
+    REFUND = 2;
+  }
+}
